@@ -1,7 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
+{% extends 'layouts/default.html' %}
+{% block head%}
+<meta charset="utf-8">
     <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
     <title>awesome bootstrap forms - Bootsnipp.com</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -68,15 +67,17 @@ textarea{
     </style>
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-</head>
-<body>
+{% endblock %}
+{% block body %}
+
 <div class="container-fluid">
 		<div class="container">
 			<div class="formBox">
-				<form>
+				
+				<form method="POST" >
 						<div class="row">
 							<div class="col-sm-12">
-								<h1>Contact form</h1>
+								<h1>Register form</h1>
 							</div>
 						</div>
 
@@ -84,14 +85,14 @@ textarea{
 							<div class="col-sm-6">
 								<div class="inputBox ">
 									<div class="inputText">First Name</div>
-									<input type="text" name="" class="input">
+									<input type="text" id='Fname' name="Fname" required class="input">
 								</div>
 							</div>
 
 							<div class="col-sm-6">
 								<div class="inputBox">
 									<div class="inputText">Last Name</div>
-									<input type="text" name="" class="input">
+									<input type="text" id='Lname' name="Lname" required class="input">
 								</div>
 							</div>
 						</div>
@@ -100,43 +101,34 @@ textarea{
 							<div class="col-sm-6">
 								<div class="inputBox">
 									<div class="inputText">Email</div>
-									<input type="text" name="" class="input">
+									<input type="email" id='email' name="email" class="input">
 								</div>
 							</div>
 
+							</div>
+
+						<div class="row">
 							<div class="col-sm-6">
 								<div class="inputBox">
-									<div class="inputText">Mobile</div>
-									<input type="text" name="" class="input">
+									<div class="inputText">Password</div>
+									<input type="password" id='passwd' name="passwd" required class="input">
 								</div>
 							</div>
 						</div>
 
 						<div class="row">
 							<div class="col-sm-12">
-								<div class="inputBox">
-									<div class="inputText">Email</div>
-									<textarea class="input"></textarea>
-								</div>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-sm-12">
-								<input type="submit" name="" class="button" value="Send Message">
+								<input type="submit" name="" class="button" value="Send">
 							</div>
 						</div>
 				</form>
 			</div>
 		</div>
 	</div>
-<script type="text/javascript">
 <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 	 <script type="text/javascript">
 	 	$(".input").focus(function() {
 	 		$(this).parent().addClass("focus");
 	 	})
 	 </script>
-</script>
-</body>
-</html>
+{% endblock  %}
