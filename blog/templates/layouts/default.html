@@ -3,11 +3,15 @@
 <head>
   {% block head%} {% endblock %}
 </head>
-    <body>
-        {% include 'shared/_nav.html'%}
-        {% block body %} {% endblock %}
-    </body>
-
+<br/>
+          
+<body>
+  {% include 'shared/_nav.html'%} 
+  {% block body %} {% endblock %}
+  {% include 'shared/_footer.html'%}
+        
+      </body>
+       
 
 
 </html>    
