@@ -5,6 +5,13 @@
     <title>Document</title>
 {% endblock %}
 {% block body %}
-<h1>Success {{request_user.username}}</h1>
+<center><h1 style="color: black;" >Welcome {{request_user}} !!!</h1> </center>
+<form method="POST" class="navbar-form navbar-right inline-form"  >
+    <div class="form-group container" >
+        <span class="glyphicon glyphicon-eye-open"></span>
+      <input type="search" class="input-sm form-control" name='research' id='research' placeholder="Research">
+      <span>
+        <button type="submit" class="btn btn-primary btn-sm"></span> Search</button>
+    </div> 
 {% endblock %}
 </html>

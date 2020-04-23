@@ -6,7 +6,7 @@ from flask import redirect,request,url_for
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-
+from flask_login import login_required,current_user
 app = Flask(__name__)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
@@ -26,7 +26,8 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    number_books = db.execute("SELECT COUNT(*) FROM books").fetchone()
+    return render_template("index.html",number_books=number_books)
 
 @app.route("/signup")
 def signup():
@@ -47,9 +48,25 @@ def signup_post():
         #flash('Username already exists')
         return redirect(url_for("signup"))
 
+@app.route("/result")
+def result():
+    return render_template('account/result.html')
+
+
 @app.route("/profile")
 def profile():
-    return "account/profile.html"
+    request_user=request.form.get("username")
+    return render_template("account/profile.html")
+
+@app.route("/profile",methods=['POST'])
+def login_search():
+    search = request.form.get('research')
+    result_search = db.execute("SELECT *FROM BOOKS WHERE title_book LIKE :search",{"search":'%'+search+'%'}).fetchall()
+        
+    if len(result_search) >= 1:
+        return render_template('account/result.html',result_search=result_search)
+    
+
 
 @app.route('/login')
 def login():   
@@ -64,7 +81,7 @@ def login_post():
     
     if(not request_user or not check_password_hash(request_user.passwd, passwd)):
         return redirect(url_for('login'))
-    return render_template('account/profile.html',request_user = request_user)
+    return redirect(url_for('profile'))#.html',request_user=request_user)
      
 @app.errorhandler(404)
 def page_not_found(error):
