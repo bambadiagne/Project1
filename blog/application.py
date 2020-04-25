@@ -1,8 +1,8 @@
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
-#import requests
+import requests
 from flask import Flask, session , render_template,abort
-from flask import redirect,request,url_for 
+from flask import redirect,request,url_for,jsonify 
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -48,10 +48,16 @@ def signup_post():
         #flash('Username already exists')
         return redirect(url_for("signup"))
 
+
+@app.route("/api/<isbn>")
+def api(isbn):
+    response =db.execute("SELECT *FROM BOOKS WHERE isbn = :isbn",{"isbn":isbn}).fetchone()
+    
+    return jsonify(title=response[2],author=response[3],year=response[4],isbn=response[1])
+
 @app.route("/profile/<isbn>")
 def bookpage(isbn):
     book_search=db.execute("SELECT *FROM BOOKS WHERE isbn = :isbn",{"isbn":isbn}).fetchone()
-    import requests
     res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "QazefzgsN4PkPaDDVz24Q", "isbns": isbn})
     reviews_goodreads=res.json()
     return render_template('account/bookpage.html',book_search=book_search,reviews_goodreads=reviews_goodreads)
@@ -70,11 +76,12 @@ def profile():
 @app.route("/profile",methods=['POST'])
 def login_search():
     search = request.form.get('research')
-    result_search = db.execute("SELECT *FROM BOOKS WHERE isbn LIKE :search or title_book LIKE :search or author_book LIKE :search",{"search":'%'+search+'%'}).fetchall()
-        
+    result_search = db.execute("SELECT *FROM BOOKS WHERE isbn LIKE :search or title_book LIKE :search or author_book LIKE :search",{"search":'%'+search+'%'}).fetchall()    
     if len(result_search) >= 1:
         return render_template('account/result.html',result_search=result_search)
-    
+    else :
+        result_search=db.execute("SELECT *FROM BOOKS ORDER BY RANDOM() LIMIT 4").fetchall()
+        return render_template('errors/book_not_found.html',result_search=result_search)
 
 
 @app.route('/login')

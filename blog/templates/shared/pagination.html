@@ -1,0 +1,22 @@
+<br>
+      <div class="card-deck">
+
+      {% for result in result_search %}
+      {% if loop.index%3==0 %}
+       <br>
+      {% endif %}
+      <div class='col mb-2'>
+      <div class="card" style="width: 18rem;">
+      <img class="card-img-top"  src="http://covers.openlibrary.org/b/isbn/{{result[1]}}-M.jpg" alt="dust cover of {{result[2]}}" style="width: 285px;height: 330px;">
+      <div class="card-body">
+        <h2 class="card-title">{{result[2]}}</h2>
+        <h5>Author: {{result[3]}}</h3>
+        <h5>Year: {{result[4]}}</h3>     
+      </div>
+      <div class="card-body">
+        <a  class="btn btn-primary" href="{{url_for('bookpage',isbn=result[1])}}" class="card-link">Link of the book</a>
+      </div>
+    </div>
+  </div>
+          {% endfor %}
+        </div>
