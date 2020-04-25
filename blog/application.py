@@ -2,7 +2,7 @@ import os
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
 from flask import Flask, session , render_template,abort
-from flask import redirect,request,url_for,jsonify 
+from flask import redirect,request,url_for,jsonify,flash 
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -40,12 +40,17 @@ def signup_post():
     email = request.form.get('email')
     passwd = request.form.get('passwd')
      
-    if(db.execute("SELECT *FROM users where username = :username", {"username": Fname+" "+Lname}).rowcount == 0):
+    if(db.execute("SELECT *FROM users where username = :username or email= :email", {"username": Fname+" "+Lname,"email": email}).rowcount == 0):
         db.execute("INSERT INTO users (username,passwd,email) VALUES (:username,:passwd,:email)",{'username':Fname+' '+Lname,"passwd":generate_password_hash(passwd, method='sha256'),'email':email})       
         db.commit()
         return redirect(url_for('login'))
-    else:
-        #flash('Username already exists')
+    elif(db.execute("SELECT *FROM users where username = :username ", {"username": Fname+" "+Lname}).rowcount>=1):
+
+        flash('Username  already exists')
+        return redirect(url_for("signup"))
+    elif (db.execute("SELECT *FROM users where  email= :email", {"email": email}).rowcount>=1):
+
+        flash('Email  already exists')    
         return redirect(url_for("signup"))
 
 
@@ -96,6 +101,7 @@ def login_post():
     db.commit()
     
     if(not request_user or not check_password_hash(request_user.passwd, passwd)):
+        flash('Please check your login details and try again.')
         return redirect(url_for('login'))
     session["user_id"]=[]
     session["user_id"].append(request_user[0])

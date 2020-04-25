@@ -80,7 +80,16 @@ textarea{
 								<h1>Register form</h1>
 							</div>
 						</div>
-
+						{% with messages = get_flashed_messages() %}
+						{% if messages %}
+							<div class="notification is-danger">
+								<h3 style="color: red;">{{ messages[0] }}<span class="glyphicon glyphicon-remove"></span>
+								</h3>
+							</div>
+						{% endif %}
+						{% endwith %}
+					
+					
 						<div class="row">
 							<div class="col-sm-6">
 								<div class="inputBox ">
@@ -111,7 +120,9 @@ textarea{
 							<div class="col-sm-6">
 								<div class="inputBox">
 									<div class="inputText">Password</div>
-									<input type="password" id='passwd' name="passwd" required class="input">
+									<input   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" type="password" id='passwd' name="passwd" required class="input">
+								<h6>	Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters</h6>
+							 
 								</div>
 							</div>
 						</div>
