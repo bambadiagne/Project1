@@ -1,0 +1,21 @@
+{% extends 'layouts/default.html' %}
+{% block head %}
+    <title>Document</title>
+{% endblock %}
+{% block body %}
+<br>
+ <div class="card" style="width: 18rem;">
+        <img class="card-img-top"  src="http://covers.openlibrary.org/b/isbn/{{book_search[1]}}-M.jpg" alt="dust cover of {{book_search[2]}}">
+        <div class="card-body">
+          <h2 class="card-title">{{book_search[2]}}</h2>
+          <h5>Author: {{book_search[3]}}</h3>
+          <h5>Year: {{book_search[4]}}</h3>     
+        </div>
+        <div class="card-body">
+          <a href="{{url_for('bookpage',isbn=book_search[1])}}" class="card-link">Link of the book</a>
+        </div>
+      </div>
+     
+    
+    {{reviews_goodreads}} </p>
+{% endblock %}

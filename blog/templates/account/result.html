@@ -6,13 +6,28 @@
 {% block body %}
   <div><center><h1>Result of the search</h1></center></div>
     <h1>Les resultats sont les suivants:</h1>
-    <span  >
-    {% for result in result_search %}
-        <h2><a href="">{{result[2]}}</a></h2>
-      <section><img   style=" vertical-align: middle;" src="http://covers.openlibrary.org/b/isbn/{{result[1]}}-M.jpg" /> 
-      
-  {% endfor %}
-</span>
- 
+  
+    <br>
+      <div class="row row-cols-1 row-cols-md-3">
+
+      {% for result in result_search %}
+      {% if loop.index%3==0 %}
+       <br>
+      {% endif %}
+  
+      <div class="card" style="width: 18rem;">
+      <img class="card-img-top"  src="http://covers.openlibrary.org/b/isbn/{{result[1]}}-M.jpg" alt="dust cover of {{result[2]}}" style="width: 300px;height: 300px;">
+      <div class="card-body">
+        <h2 class="card-title">{{result[2]}}</h2>
+        <h5>Author: {{result[3]}}</h3>
+        <h5>Year: {{result[4]}}</h3>     
+      </div>
+      <div class="card-body">
+        <a href="{{url_for('bookpage',isbn=result[1])}}" class="card-link">Link of the book</a>
+      </div>
+    </div>
+          {% endfor %}
+        </div>
+
 {% endblock  %}
   
