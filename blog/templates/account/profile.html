@@ -5,6 +5,8 @@
     <title>Document</title>
 {% endblock %}
 {% block body %}
+<center><a  class="btn btn-primary" href="{{url_for('logout')}}" class="card-link">Logout</a></center>
+
 <center><h1 style="color: black;" >Welcome {{request_user[1]}} !!!</h1> </center>
 <form method="POST" class="navbar-form navbar-right inline-form"  >
     <div class="form-group container" >
@@ -13,5 +15,10 @@
       <span>
         <button type="submit" class="btn btn-primary btn-sm"></span> Search</button>
     </div> 
+{% include 'shared/pagination.html' %}
+<center>
+{% include 'shared/prev_next_page.html' %}
+</center>
+
 {% endblock %}
 </html>

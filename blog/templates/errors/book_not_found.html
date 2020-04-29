@@ -4,14 +4,13 @@
 {% endblock %}
 
 {% block body %}
-   <div>
+<a  class="btn btn-primary"  style="top: auto;"  href="{{url_for('logout')}}" class="card-link">Link of the book</a>
+         
+<div>
        <center>
            <h1>Sorry We have not found the book that you research</h1>
         <a class="btn btn-primary" href="{{url_for('profile')}}">Return into to the search bar</a>
 </center>
-   
-   
-   
 <h2>Some others books:</h2>
    {% include 'shared/pagination.html' %}
 
