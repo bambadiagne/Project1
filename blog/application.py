@@ -1,4 +1,4 @@
-import os
+import os 
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
 from flask import Flask, session , render_template,abort
@@ -6,7 +6,8 @@ from flask import redirect,request,url_for,jsonify,flash
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from flask_login import login_required,current_user
+
+
 app = Flask(__name__)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
@@ -75,9 +76,24 @@ def result():
 
 @app.route("/profile")
 def profile():
-    request_user=db.execute("SELECT *FROM USERS WHERE id_user= :id",{"id":session["user_id"][0]}).fetchone()
-    return render_template("account/profile.html",request_user=request_user)
+    if('user_id' in session):
+         per_page = 12 # define how many results you want per page
+         all_books = db.execute("SELECT  FROM books").fetchall()
+         
+         page = request.args.get('page', 1, type=int)
+         pages = len(all_books) // per_page # this is the number of pages
+         offset = (page-1)*per_page # offset for SQL query
+         limit = 20 if page == pages else per_page # limit for SQL query
+         prev_url = url_for('profile', page=page-1) if page > 1 else None
+         next_url = url_for('profile', page=page+1) if page < pages else None
+         request_user=db.execute("SELECT *FROM USERS WHERE id_user= :id",{"id":session["user_id"][0]}).fetchone()
+         result_search = db.execute("SELECT *FROM BOOKS LIMIT :limit OFFSET :offset ",{"limit":limit,"offset":offset}).fetchall()    
+        
+         return render_template("account/profile.html",request_user=request_user,prev_url=prev_url,next_url=next_url,result_search=result_search,page=page)
 
+    return redirect(url_for('login'))
+    
+   
 @app.route("/profile",methods=['POST'])
 def login_search():
     search = request.form.get('research')
@@ -106,7 +122,10 @@ def login_post():
     session["user_id"]=[]
     session["user_id"].append(request_user[0])
     return redirect(url_for('profile'))#.html',request_user=request_user)
-     
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for('index'))     
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('errors/404.html'), 404
