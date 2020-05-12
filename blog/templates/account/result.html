@@ -6,9 +6,11 @@
 {% block body %}
 <a  class="btn btn-primary"  style="padding-right: 50px;margin: 30px;"  href="{{url_for('logout')}}" class="card-link">Logout</a>
  
-<div><center><h1>Result of the search</h1></center></div>
+<div><center>
+    <h1>Result of the search</h1>
+</center>
     <h1>Les resultats sont les suivants:</h1>
     {% include 'shared/pagination.html' %}
-    <center> {% include 'shared/prev_next_page.html' %}</center>
+</div>
 {% endblock  %}
   

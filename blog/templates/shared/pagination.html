@@ -1,10 +1,7 @@
 <br>
       <div class="card-deck">
 
-      {% for result in result_search %}
-      {% if loop.index%3==0 %}
-       <br>
-      {% endif %}
+      {% for result in pagination[0] %}
       <div class='col mb-2'>
       <div class="card" style="width: 18rem;">
       <img class="card-img-top"  src="http://covers.openlibrary.org/b/isbn/{{result[1]}}-M.jpg" alt="dust cover of {{result[2]}}" style="width: 285px;height: 330px;">

@@ -1,22 +1,22 @@
     
-<nav aria-label="...">
+<nav aria-label="..." style="text-align: center;">
     <ul class="pagination">
-      {% if page<=1 %}
+      {% if pagination[3]<=1 %}
         <li class="page-item disabled ">
 
-        <a class="page-link" href="{{prev_url}}">Previous</a>   
+        <a class="page-link" href="{{pagination[1]}}">Previous</a>   
       </li>
       {% endif %}
-      {% if page>1 %}
+      {% if pagination[3]>1 %}
    
       <li class="page-item ">
 
-        <a class="page-link" href="{{prev_url}}">Previous</a>   
+        <a class="page-link" href="{{pagination[1]}}">Previous</a>   
     </li>
     {% endif %}
      
       <li class="page-item">
-        <a class="page-link" href="{{next_url}}">Next</a>
+        <a class="page-link" href="{{pagination[2]}}">Next</a>
       </li>
     </ul>
     
