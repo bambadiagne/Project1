@@ -1,21 +1,39 @@
 {% extends 'layouts/default.html' %}
 {% block head %}
-    <title>Document</title>
+<title>Book Page</title>
 {% endblock %}
 {% block body %}
 <br>
- <div class="card" style="width: 18rem;">
-        <img class="card-img-top"  src="http://covers.openlibrary.org/b/isbn/{{book_search[1]}}-M.jpg" alt="dust cover of {{book_search[2]}}">
-        <div class="card-body">
-          <h2 class="card-title">{{book_search[2]}}</h2>
-          <h5>Author: {{book_search[3]}}</h3>
-          <h5>Year: {{book_search[4]}}</h3>     
-        </div>
-        <div class="card-body">
-          <a href="{{url_for('bookpage',isbn=book_search[1])}}" class="card-link">Link of the book</a>
-        </div>
+<center>
+  <div style="width: 18rem;display: inline;">
+    <div style="float: left;">
+      <img src="http://covers.openlibrary.org/b/isbn/{{book_search[1]}}-L.jpg" alt="dust cover of {{book_search[2]}}">
+      <div style="float: right;">
+        <h1 >{{book_search[2]}}</h1>
+        <h5>Author: {{book_search[3]}}</h3>
+          <h5>Year: {{book_search[4]}}</h3>
+          <h5>ISBN: {{book_search[1]}}</h3>
+          <h5 id='isbn' style="visibility: hidden;">{{book_search[1]}} </h5>
+            <br>
+            <br>
+          
+            <div>
+              <h4>Review from goodsreads</h4>
+              <h5>reviews_count : {{reviews_goodreads["books"][0]['reviews_count']}}</h5>
+              <h5>ratings_count : {{reviews_goodreads["books"][0]['ratings_count']}}</h5>
+              <h5>average_rating : {{reviews_goodreads["books"][0]['average_rating']}}</h5>
+        
+        
+            </div>
+        
       </div>
-     
-    
-    {{reviews_goodreads}} </p>
+        
+    </div>
+    {% include 'rating/review.html' %} 
+    <div id='result-comment'></div>    
+  </div>
+
+</center>
+<script src="{{ url_for('static', filename='js/ajx.js') }}"></script>
+
 {% endblock %}
