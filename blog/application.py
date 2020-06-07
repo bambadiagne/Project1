@@ -74,7 +74,14 @@ def bookpage(isbn):
     res = requests.get("https://www.goodreads.com/book/review_counts.json",
                        params={"key": "QazefzgsN4PkPaDDVz24Q", "isbns": isbn})
     reviews_goodreads = res.json()
-    return render_template('account/bookpage.html', book_search=book_search, reviews_goodreads=reviews_goodreads)
+    ALL_COMMENTS=db.execute("SELECT *FROM reviews").fetchall()
+    ALL_USERS=[db.execute("SELECT *FROM USERS WHERE id_user= :id_user",{"id_user": user[2]}).fetchone()[1] for user in ALL_COMMENTS ]
+    if(db.execute("SELECT * FROM reviews where id_user=:id_user and isbn=:isbn ",{'id_user': session['user_id'][0], 'isbn': isbn}).rowcount>=1):
+            bol = 0
+            flash('You have already given a review on this book')
+            return render_template('account/bookpage.html',bol=bol ,book_search=book_search, reviews_goodreads=reviews_goodreads,all_comments= ALL_COMMENTS, all_users=ALL_USERS)
+
+    return render_template('account/bookpage.html', book_search=book_search, reviews_goodreads=reviews_goodreads,all_comments= ALL_COMMENTS,all_users=ALL_USERS)
 
 
 @app.route("/bookpage/<isbn>", methods=['POST'])
@@ -83,9 +90,10 @@ def comment(isbn):
     if('user_id' in session):
         username = db.execute("SELECT *FROM USERS WHERE id_user= :id_user",
                               {"id_user": session["user_id"][0]}).fetchone()[1]
+        
         comments = request.form.get('comment')
         rating = request.form.get('rating')
-
+              
         db.execute("INSERT INTO reviews (comments,rating,id_user,isbn) VALUES (:comments,:rating,:id_user,:isbn)", {
                    'comments': comments, "rating": rating, 'id_user': session['user_id'][0], 'isbn': isbn})
         db.commit()

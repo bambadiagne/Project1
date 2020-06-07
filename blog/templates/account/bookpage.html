@@ -4,36 +4,70 @@
 {% endblock %}
 {% block body %}
 <br>
+
+
 <center>
-  <div style="width: 18rem;display: inline;">
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <div class="notification is-danger">
+    <h4 style="color: red;">{{ messages[0] }}<span class="glyphicon glyphicon-remove"></span>
+    </h4>
+  </div>
+  {% endif %}
+  {% endwith %}
+  
+  <div style="display: flex;" class="container-sm">
+
     <div style="float: left;">
       <img src="http://covers.openlibrary.org/b/isbn/{{book_search[1]}}-L.jpg" alt="dust cover of {{book_search[2]}}">
       <div style="float: right;">
-        <h1 >{{book_search[2]}}</h1>
+        <h1>{{book_search[2]}}</h1>
         <h5>Author: {{book_search[3]}}</h3>
           <h5>Year: {{book_search[4]}}</h3>
-          <h5>ISBN: {{book_search[1]}}</h3>
-          <h5 id='isbn' style="visibility: hidden;">{{book_search[1]}} </h5>
-            <br>
-            <br>
-          
-            <div>
-              <h4>Review from goodsreads</h4>
-              <h5>reviews_count : {{reviews_goodreads["books"][0]['reviews_count']}}</h5>
-              <h5>ratings_count : {{reviews_goodreads["books"][0]['ratings_count']}}</h5>
-              <h5>average_rating : {{reviews_goodreads["books"][0]['average_rating']}}</h5>
-        
-        
-            </div>
-        
+            <h5>ISBN: {{book_search[1]}}</h3>
+              <h5 id='isbn' style="visibility: hidden;">{{book_search[1]}} </h5>
+              <br>
+              <br>
+
+              <div>
+                <h4>Review from goodsreads</h4>
+                <h5>reviews_count : {{reviews_goodreads["books"][0]['reviews_count']}}</h5>
+                <h5>ratings_count : {{reviews_goodreads["books"][0]['ratings_count']}}</h5>
+                <h5>average_rating : {{reviews_goodreads["books"][0]['average_rating']}}</h5>
+
+
+              </div>
+
       </div>
-        
+
     </div>
-    {% include 'rating/review.html' %} 
-    <div id='result-comment'></div>    
+    <br>
+
+
   </div>
 
+  {% if bol !=0 %}
+  {% include 'rating/review.html' %}
+  {% endif %}
+  <br>
 </center>
-<script src="{{ url_for('static', filename='js/ajx.js') }}"></script>
+
+  {% for i in range(all_comments | length) %}
+  
+  <div style="width: 300px;height: 100px;;border: 1px solid; ">
+    <div style="float: left;">
+    <strong >{{all_users[i]}}</strong><br>
+    </div><br>
+    <p style="text-align: center;">{{all_comments[i][0]}} </p>
+</div>
+
+  {% endfor %}
+
+  <div id='result-comment'>
+  </div>
+
+
+
+<script src="{{ url_for('static', filename='js/request_ajax.js') }}"></script>
 
 {% endblock %}

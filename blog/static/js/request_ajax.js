@@ -6,16 +6,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const request = new XMLHttpRequest();
         request.open('POST', '/bookpage/' + isbn);
-        let comment = document.getElementById("new-review").innerHTML;
+        let comment = document.getElementById("new-review").value;
         let rating = document.getElementById("ratings-hidden").value;
         request.onload = () => {
 
             const data = JSON.parse(request.responseText);
             let div = document.createElement("div");
-            let p = document.createElement("p");
-            p.style.fontWeight = 900;
-            p.innerHTML = data.username + '<br><br>' + data.comments;
-            div.appendChild(p);
+            let username=data.username;
+            let comments= data.comments;
+            
+            div.innerHTML="<strong>"+username+"</strong><br><p>"+comments+"</p>";
             document.getElementById('result-comment').appendChild(div);
         }
 
