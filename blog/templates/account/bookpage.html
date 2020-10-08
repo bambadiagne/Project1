@@ -16,7 +16,7 @@
   {% endif %}
   {% endwith %}
   
-  <div style="display: flex;" class="container-sm">
+  <div style="display: flex;justify-content: center;" class="container-sm">
 
     <div style="float: left;">
       <img src="http://covers.openlibrary.org/b/isbn/{{book_search[1]}}-L.jpg" alt="dust cover of {{book_search[2]}}">
@@ -31,9 +31,9 @@
 
               <div>
                 <h4>Review from goodsreads</h4>
-                <h5>reviews_count : {{reviews_goodreads["books"][0]['reviews_count']}}</h5>
-                <h5>ratings_count : {{reviews_goodreads["books"][0]['ratings_count']}}</h5>
-                <h5>average_rating : {{reviews_goodreads["books"][0]['average_rating']}}</h5>
+                <h5>reviews count : {{reviews_goodreads["books"][0]['reviews_count']}}</h5>
+                <h5>ratings count : {{reviews_goodreads["books"][0]['ratings_count']}}</h5>
+                <h5>average rating : {{reviews_goodreads["books"][0]['average_rating']}} / 5 </h5>
 
 
               </div>
