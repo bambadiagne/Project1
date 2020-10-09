@@ -35,13 +35,20 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#"></a>
                 </li>
-              
+                {% if 'user_id' not in session %}
+               
                 <li class="nav-item" id="but">
                     <a class="nav-link btn btn-primary text-white" type="button" href="{{url_for('login')}}" >Sign In</a>                  
                 </li>
                 <li class="nav-item" id="but">
                     <a class="nav-link btn btn-danger text-white" type="button" href="{{url_for('signup')}}" >Register</a>
                 </li>
+                {% else %}
+                <li class="nav-item" id="but">
+                    <a class="nav-link btn btn-danger text-white" type="button" href="{{url_for('logout')}}" >Logout</a>
+                </li>
+                {% endif %}
+
             </ul>
         </div>
     </big>
