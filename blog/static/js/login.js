@@ -56,3 +56,4 @@ $(function(){
 		init();
 	});
 });
+document.getElementById('navhidden').hidden=true;
