@@ -2,7 +2,7 @@
 {% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>All Books</title>
 {% endblock %}
 {% block body %}
 <center><h1 style="color: black;" >Welcome {{request_user[1]}} !!!</h1> </center>
@@ -14,6 +14,6 @@
         <button type="submit" class="btn btn-primary btn-sm"></span> Search</button>
     </div> 
 {% include 'shared/pagination.html' %}
-
+{% include 'shared/prev_next_page.html' %}
 {% endblock %}
 </html>

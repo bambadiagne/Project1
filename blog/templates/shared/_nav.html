@@ -1,59 +1,49 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">    
-    
-    <div class="container">
-	<div class="row">
-	</div>
-	
-	<nav class="navbar navbar-expand-lg navbar-light bg-warning" >
-        <big>
-        <a class="navbar-brand" href="{{url_for('index')}}">HOME</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
+
+<div class="container" id="nav">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-warning">
+        <a class="navbar-brand" href="{{url_for('index')}}">
+            <img id="navhidden" rel="shortcut icon" src="{{ url_for('static', filename='img/favicon.png') }}">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto topnav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{url_for('index')}}">Home <span class="sr-only">(current)</span></a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('index')}}">Home</a>
                 </li>
+                
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('profile')}}">Books</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Top 100</a>
                 </li>
-                
+
                 <li class="nav-item">
                     <a class="nav-link" href="#">Contact</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">                                               </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"></a>
-                </li>
                 {% if 'user_id' not in session %}
-               
-                <li class="nav-item" id="but">
-                    <a class="nav-link btn btn-primary text-white" type="button" href="{{url_for('login')}}" >Sign In</a>                  
-                </li>
-                <li class="nav-item" id="but">
-                    <a class="nav-link btn btn-danger text-white" type="button" href="{{url_for('signup')}}" >Register</a>
-                </li>
-                {% else %}
-                <li class="nav-item" id="but">
-                    <a class="nav-link btn btn-danger text-white" type="button" href="{{url_for('logout')}}" >Logout</a>
-                </li>
-                {% endif %}
+
 
             </ul>
+            <a class="nav-link btn btn-primary text-white navhidden "  type="button"
+                href="{{url_for('login')}}">Sign
+                in</a>
+            <a class="nav-link btn btn-danger text-white navhidden "  type="button"
+                href="{{url_for('signup')}}">Register</a>
+            {% else %}
+            <a class="nav-link btn btn-danger text-white navhidden "  type="button"
+                href="{{url_for('logout')}}">Logout</a>
+            {% endif %}
+
         </div>
-    </big>
-            <!-- The Modal -->
-            
+        <!-- The Modal -->
+
 
     </nav>
 </div>

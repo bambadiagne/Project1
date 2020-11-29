@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
-   
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
   {% block head%} {% endblock %}
-   
+
 </head>
-<br/>
+<br />
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-        
-<body>
-  {% include 'shared/_nav.html'%} 
+
+<body class="img-fluid" style="background-image: url('/static/img/background2.jpg');background-repeat:no-repeat;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;
+background-size:cover;
+background-position:center;">
+
+  {% include 'shared/_nav.html'%}
   {% block body %} {% endblock %}
+  <br><br><br>
   {% include 'shared/_footer.html'%}
-        
-      </body>
-       
+
+</body>
 
 
-</html>    
+
+</html>
