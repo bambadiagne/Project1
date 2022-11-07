@@ -65,7 +65,7 @@ def bookpage(isbn):
         book_search = db.execute(
         "SELECT *FROM BOOKS WHERE isbn = :isbn", {"isbn": isbn}).fetchone()
         res = requests.get("https://www.goodreads.com/book/review_counts.json",
-                       params={"key": "QazefzgsN4PkPaDDVz24Q", "isbns": isbn})
+                       params={"key": os.getenv("GOODREADS_API_KEY"), "isbns": isbn})
         reviews_goodreads = res.json()
         ALL_COMMENTS=db.execute("SELECT *FROM reviews").fetchall()
         ALL_USERS=[db.execute("SELECT *FROM USERS WHERE id_user= :id_user",{"id_user": user[2]}).fetchone()[1] for user in ALL_COMMENTS ]
