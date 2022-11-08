@@ -13,6 +13,6 @@ Si vous utilisez une version de python non compatible avec le projet,executer la
 - set FLASK_DEBUG=1
 - set FLASK_APP=blog/application.py
 - set DATABASE_URL=YOUR_URI
-- flask run
+- python wsgi.py
 
 Site en production:<a href='http://booproject1.herokuapp.com/'>le lien </a>
