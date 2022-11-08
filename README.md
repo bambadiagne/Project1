@@ -15,4 +15,4 @@ Si vous utilisez une version de python non compatible avec le projet,executer la
 - set DATABASE_URL=YOUR_URI
 - python wsgi.py
 
-Site en production:<a href='http://booproject1.herokuapp.com/'>le lien </a>
+Site en production:<a href='https://booproject1.herokuapp.com/'>le lien </a>
