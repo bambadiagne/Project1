@@ -7,7 +7,7 @@ Technologies utilisées:lo
 **API(livres):** Goodreads<br>
 **Hebergeur:** Heroku<br>
 Pour utiliser le projet sur Windows:
-
+Si vous utilisez une version de python non compatible avec le projet,executer la commande : pip-upgrade requirements.txt 
 - cd C:\Users\user\important\Projet EDX\project1
 - .\venv\Scripts\activate
 - set FLASK_DEBUG=1
