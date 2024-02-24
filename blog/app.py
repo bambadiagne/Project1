@@ -6,13 +6,15 @@ from flask import redirect, request, url_for, jsonify, flash
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from dotenv import load_dotenv
 
+load_dotenv()
 
 app = Flask(__name__)
-app.config.from_object('config')
+app.config.from_object(os.getenv('APP_SETTINGS'))
+app.secret_key = os.getenv('SECRET_KEY')
 Session(app)
 
-# Set up database
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
 db = scoped_session(sessionmaker(bind=engine))
 
@@ -67,14 +69,14 @@ def bookpage(isbn):
         res = requests.get("https://www.goodreads.com/book/review_counts.json",
                        params={"key": os.getenv("GOODREADS_API_KEY"), "isbns": isbn})
         reviews_goodreads = res.json()
-        ALL_COMMENTS=db.execute("SELECT *FROM reviews").fetchall()
-        ALL_USERS=[db.execute("SELECT *FROM USERS WHERE id_user= :id_user",{"id_user": user[2]}).fetchone()[1] for user in ALL_COMMENTS ]
-        if(db.execute("SELECT * FROM reviews where id_user=:id_user and isbn=:isbn ",{'id_user': session['user_id'][0], 'isbn': isbn}).rowcount>=1):
+        
+        ALL_COMMENTS=db.execute("SELECT u.username, r.comments, r.rating FROM reviews r CROSS JOIN users u WHERE r.isbn= :isbn",{"isbn":isbn}).fetchall()  
+        if(db.execute("SELECT * FROM reviews where id_user=:id_user and isbn=:isbn ",{'id_user': session['user_id'], 'isbn': isbn}).rowcount>=1):
             bol = 0
             flash('You have already given a review on this book')
-            return render_template('account/bookpage.html',bol=bol ,book_search=book_search, reviews_goodreads=reviews_goodreads,all_comments= ALL_COMMENTS, all_users=ALL_USERS)
+            return render_template('account/bookpage.html',bol=bol ,book_search=book_search, reviews_goodreads=reviews_goodreads,all_comments= ALL_COMMENTS,)
 
-        return render_template('account/bookpage.html', book_search=book_search, reviews_goodreads=reviews_goodreads,all_comments= ALL_COMMENTS,all_users=ALL_USERS)
+        return render_template('account/bookpage.html', book_search=book_search, reviews_goodreads=reviews_goodreads,all_comments= ALL_COMMENTS)
     return redirect(url_for('login'))
 
 @app.route("/bookpage/<isbn>", methods=['POST'])
@@ -82,13 +84,13 @@ def comment(isbn):
 
     if('user_id' in session):
         username = db.execute("SELECT *FROM USERS WHERE id_user= :id_user",
-                              {"id_user": session["user_id"][0]}).fetchone()[1]
+                              {"id_user": session["user_id"]}).fetchone()[1]
         
         comments = request.form.get('comment')
         rating = request.form.get('rating')
               
         db.execute("INSERT INTO reviews (comments,rating,id_user,isbn) VALUES (:comments,:rating,:id_user,:isbn)", {
-                   'comments': comments, "rating": rating, 'id_user': session['user_id'][0], 'isbn': isbn})
+                   'comments': comments, "rating": rating, 'id_user': session['user_id'], 'isbn': isbn})
         db.commit()
         return jsonify(comments=comments, username=username)
 
@@ -114,7 +116,7 @@ def profile():
         prev_url = url_for('profile', page=page-1) if page > 1 else None
         next_url = url_for('profile', page=page+1) if page < pages else None
         request_user = db.execute(
-            "SELECT *FROM USERS WHERE id_user= :id", {"id": session["user_id"][0]}).fetchone()
+            "SELECT *FROM USERS WHERE id_user= :id", {"id": session["user_id"]}).fetchone()
         result_search = db.execute("SELECT *FROM BOOKS LIMIT :limit OFFSET :offset ", {
                                    "limit": limit, "offset": offset}).fetchall()
 
@@ -153,8 +155,7 @@ def login_post():
     if(not request_user or not check_password_hash(request_user.passwd, passwd)):
         flash('Please check your login details and try again.')
         return redirect(url_for('login'))
-    session["user_id"] = []
-    session["user_id"].append(request_user[0])
+    session["user_id"]=request_user[0]
     return redirect(url_for('profile'))  # .html',request_user=request_user)
 
 
